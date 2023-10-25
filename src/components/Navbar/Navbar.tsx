@@ -3,6 +3,8 @@ import Link from "next/link";
 import { buttonVariants } from "../ui/button";
 import { Input } from "../ui/input";
 import { redirect } from "next/navigation";
+import { getCart } from "@/lib/db/cart";
+import { ShoppingCartButton } from "./ShoppingCartButton";
 
 async function searchProducts(formData: FormData) {
     'use server'
@@ -14,7 +16,9 @@ async function searchProducts(formData: FormData) {
     }
 }
 
-export function Navbar() {
+export async function Navbar() {
+    const cart = await getCart()
+
     return (
         <nav className="bg-zinc-100">
             <div className="max-w-7xl flex flex-col sm:flex-row items-center m-auto gap-2 p-2">
@@ -36,7 +40,7 @@ export function Navbar() {
                     </Link>
                 </div>
 
-                <div className="flex-none gap-2">
+                <div className="flex gap-2">
                     <form
                         action={searchProducts}
                     >
@@ -48,6 +52,8 @@ export function Navbar() {
                             />
                         </div>
                     </form>
+
+                    <ShoppingCartButton cart={cart} />
                 </div>
             </div>
         </nav>
