@@ -43,7 +43,7 @@ export default async function page({ params: { id } }: pageProps) {
     const product = await getProduct(id)
 
     return (
-        <div className="flex flex-col lg:flex-row lg:items-center gap-4 bg-zinc-100 rounded-lg">
+        <div className="flex flex-col lg:flex-row lg:items-center gap-4 bg-white rounded-lg">
             <Image
                 src={product.imageUrl}
                 alt={product.name}
@@ -60,7 +60,7 @@ export default async function page({ params: { id } }: pageProps) {
 
                 <PriceTag price={product.price} className="mt-4" />
 
-                <p className="py-6">{product.description}</p>
+                <p className="py-6 pr-4">{product.description}</p>
 
                 <AddToCartButton
                     productId={product.id}

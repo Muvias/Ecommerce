@@ -2,7 +2,9 @@ import { FormSubmitButton } from "@/components/FormSubmitButton";
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
 import { prisma } from "@/lib/db/prisma";
+import { getServerSession } from "next-auth";
 import { redirect } from "next/navigation";
+import { authOptions } from "../api/auth/[...nextauth]/route";
 
 export const metadata = {
     title: "Adc Produto - Ecommerce"
@@ -32,7 +34,13 @@ async function addProduct(formData: FormData) {
     redirect("/")
 }
 
-export default function page() {
+export default async function page() {
+    const session = await getServerSession(authOptions)
+
+    if (!session) {
+        redirect('/api/auth/signin?callbackUrl=/add-product')
+    }
+
     return (
         <div>
             <h1 className="mb-3 text-lg font-bold">

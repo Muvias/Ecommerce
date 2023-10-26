@@ -14,8 +14,8 @@ export default async function Home() {
 
   return (
     <div>
-      <Card className="p-6 mb-8 bg-zinc-100 flex flex-col lg:flex-row lg:items-center gap-8">
-        <CardHeader className="w-full pb-0 mx-auto lg:mx-0">
+      <Card className="px-0 py-6 sm:px-6 mb-8 bg-white flex flex-col lg:flex-row lg:items-center gap-8">
+        <CardHeader className="w-full pb-0">
           <Image
             src={products[0].imageUrl}
             alt={products[0].name}
@@ -27,7 +27,7 @@ export default async function Home() {
         </CardHeader>
 
         <CardContent>
-          <CardTitle className="text-5xl">{products[0].name}</CardTitle>
+          <CardTitle className="text-5xl truncate">{products[0].name}</CardTitle>
           <CardContent className="px-0 py-6">{products[0].description}</CardContent>
           <Link
             className={buttonVariants()}
@@ -38,7 +38,7 @@ export default async function Home() {
         </CardContent>
       </Card>
 
-      <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 my-4 gap-4">
+      <div className="flex justify-around flex-wrap my-4 gap-8">
         {products.slice(1).map(product => (
           <ProductCard
             key={product.id}

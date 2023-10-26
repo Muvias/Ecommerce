@@ -1,8 +1,10 @@
+import { Navbar } from '@/components/Navbar/Navbar'
 import type { Metadata } from 'next'
 import { Inter } from 'next/font/google'
-import './globals.css'
-import { Navbar } from '@/components/Navbar/Navbar'
 import { Footer } from './Footer'
+
+import SessionProvider from './Provider'
+import './globals.css'
 
 const inter = Inter({ subsets: ['latin'] })
 
@@ -18,12 +20,14 @@ export default function RootLayout({
 }) {
   return (
     <html lang="pt-br">
-      <body className={inter.className}>
-        <Navbar />
-        <main className='max-w-7xl min-w-[300px] min-h-[calc(100vh-268px)] p-4 mx-auto'>
-          {children}
-        </main>
-        <Footer />
+      <body className={'bg-zinc-100 ' + inter.className}>
+        <SessionProvider>
+          <Navbar />
+          <main className='max-w-7xl min-w-[300px] min-h-[calc(100vh-268px)] p-4 mx-auto'>
+            {children}
+          </main>
+          <Footer />
+        </SessionProvider>
       </body>
     </html>
   )

@@ -1,6 +1,6 @@
 'use client'
 
-import { Select, SelectContent, SelectGroup, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select"
+import { buttonVariants } from "@/components/ui/button"
 import { CartItemWithProduct } from "@/lib/db/cart"
 import { formatPrice } from "@/lib/format"
 import { Loader2 } from "lucide-react"
@@ -20,12 +20,13 @@ export function CartEntry({ cartItem: { product, quantity }, setProductQuantity 
 
     for (let i = 1; i <= 99; i++) {
         quantityOptions.push(
-            <SelectItem
+            <option
                 key={i}
                 value={i}
+                className="mx-0"
             >
                 {i}
-            </SelectItem>
+            </option>
         )
     }
 
@@ -50,29 +51,30 @@ export function CartEntry({ cartItem: { product, quantity }, setProductQuantity 
 
                     <div className="flex items-center my-1 gap-2">
                         Quantidade:
-                        <Select>
-                            <SelectTrigger
-                                className="h-fit py-1 gap-1"
-                            >
-                                <SelectValue placeholder={quantity} />
-                            </SelectTrigger>
+                        <select
+                            className={buttonVariants({
+                                variant: 'outline',
+                                className: "scrollbar-w-2"
+                            })}
+                            defaultValue={quantity}
+                            onChange={(e) => {
+                                const newQuantity = parseInt(e.currentTarget.value);
 
-                            <SelectContent className="min-w-[6rem]" >
-                                <SelectGroup
-                                    className="max-h-40 overflow-y-scroll scrollbar-w-2"
-
-                                >
-                                    {quantityOptions}
-                                </SelectGroup>
-                            </SelectContent>
-                        </Select>
+                                startTransition(async () => {
+                                    await setProductQuantity(product.id, newQuantity);
+                                });
+                            }}
+                        >
+                            <option value={0} className="bg-red-300">Remover</option>
+                            {quantityOptions}
+                        </select>
                     </div>
 
                     <div className="flex items-center gap-2">
                         Total: {formatPrice(product.price * quantity)}
+                        
+                        {isPending && <Loader2 className="animate-spin" />}
                     </div>
-
-                    {isPending && <Loader2 className="animate-spin" />}
                 </div>
             </div>
 
