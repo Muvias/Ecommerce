@@ -32,7 +32,7 @@ export function ProductCard({ product }: ProductCardProps) {
                         {product.name}
                     </CardTitle>
                     {isNew && <Badge>NEW</Badge>}
-                    <CardDescription>
+                    <CardDescription className="line-clamp-6">
                         {product.description}
                     </CardDescription>
                     <PriceTag

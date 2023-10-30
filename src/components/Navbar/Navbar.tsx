@@ -17,6 +17,8 @@ async function searchProducts(formData: FormData) {
 
     if (searchQuery) {
         redirect('/search?query=' + searchQuery)
+    } else {
+        redirect('/')
     }
 }
 
