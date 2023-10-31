@@ -49,11 +49,11 @@ export default async function page({ params: { id } }: pageProps) {
                 alt={product.name}
                 width={500}
                 height={500}
-                className="rounded-lg"
+                className="rounded-lg mx-auto"
                 priority
             />
 
-            <div>
+            <div className="px-2 pb-2">
                 <h1 className="text-5xl font-bold">
                     {product.name}
                 </h1>

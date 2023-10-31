@@ -17,7 +17,7 @@ export default async function Home({ searchParams: { page = "1" } }: HomeProps) 
   const currentPage = parseInt(page)
   const pageSize = (currentPage === 1 ? 6 : 9)
 
-  const totalPages = Math.ceil((totalItemCount - heroItemCount) / pageSize)
+  const totalPages = Math.ceil((totalItemCount - heroItemCount) / 9)
 
   const products = await prisma.product.findMany({
     orderBy: {
