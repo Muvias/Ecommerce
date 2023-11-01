@@ -1,8 +1,10 @@
 'use client'
 
 import { buttonVariants } from "@/components/ui/button"
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select"
 import { CartItemWithProduct } from "@/lib/db/cart"
 import { formatPrice } from "@/lib/format"
+import { SelectGroup } from "@radix-ui/react-select"
 import { Loader2 } from "lucide-react"
 import Image from "next/image"
 import Link from "next/link"
@@ -20,13 +22,12 @@ export function CartEntry({ cartItem: { product, quantity }, setProductQuantity 
 
     for (let i = 1; i <= 99; i++) {
         quantityOptions.push(
-            <option
+            <SelectItem
                 key={i}
                 value={i}
-                className="mx-0"
             >
                 {i}
-            </option>
+            </SelectItem>
         )
     }
 
@@ -51,28 +52,37 @@ export function CartEntry({ cartItem: { product, quantity }, setProductQuantity 
 
                     <div className="flex items-center my-1 gap-2">
                         Quantidade:
-                        <select
-                            className={buttonVariants({
-                                variant: 'outline',
-                                className: "scrollbar-w-2"
-                            })}
+                        <Select
                             defaultValue={quantity}
-                            onChange={(e) => {
-                                const newQuantity = parseInt(e.currentTarget.value);
+                            onValueChange={(value) => {
+                                const newQuantity = parseInt(value);
 
                                 startTransition(async () => {
                                     await setProductQuantity(product.id, newQuantity);
                                 });
                             }}
                         >
-                            <option value={0} className="bg-red-300">Remover</option>
-                            {quantityOptions}
-                        </select>
+                            <SelectTrigger
+                                className={buttonVariants({
+                                    variant: 'outline',
+                                })}
+                            >
+                                <SelectValue placeholder={quantity} />
+                            </SelectTrigger>
+
+                            <SelectContent>
+                                <SelectGroup className="h-40 scrollbar-w-2 overflow-y-scroll pr-1">
+                                    <SelectItem value={0} className="bg-red-300">Remover</SelectItem>
+                                    {quantityOptions}
+                                </SelectGroup>
+                            </SelectContent>
+
+                        </Select>
                     </div>
 
                     <div className="flex items-center gap-2">
                         Total: {formatPrice(product.price * quantity)}
-                        
+
                         {isPending && <Loader2 className="animate-spin" />}
                     </div>
                 </div>

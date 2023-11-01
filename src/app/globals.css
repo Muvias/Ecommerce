@@ -82,4 +82,5 @@
 .scrollbar-w-2::-webkit-scrollbar-thumb {
   background-color: rgb(205, 211, 223);
   border-radius: 10px;
+  height: 40px;
 }

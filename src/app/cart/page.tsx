@@ -22,6 +22,7 @@ export default async function page({ }: pageProps) {
 
             {cart?.items.map((cartItem) => (
                 <CartEntry
+                    key={cartItem.id}
                     cartItem={cartItem}
                     setProductQuantity={setProductQuantity}
                 />
@@ -31,13 +32,13 @@ export default async function page({ }: pageProps) {
 
             {cart?.subtotal !== 0 && (
                 <div className="flex flex-col items-end">
-                        <p className="font-bold mt-4 mb-3">
-                            Total: {formatPrice(cart?.subtotal || 0)}
-                        </p>
+                    <p className="font-bold mt-4 mb-3">
+                        Total: {formatPrice(cart?.subtotal || 0)}
+                    </p>
 
-                        <Button>
-                            Concluir
-                        </Button>
+                    <Button>
+                        Concluir
+                    </Button>
                 </div>
             )}
         </div >

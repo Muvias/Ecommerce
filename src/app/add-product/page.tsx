@@ -5,6 +5,7 @@ import { prisma } from "@/lib/db/prisma";
 import { getServerSession } from "next-auth";
 import { redirect } from "next/navigation";
 import { authOptions } from "../api/auth/[...nextauth]/route";
+import { stripe } from "@/lib/stripe";
 
 export const metadata = {
     title: "Adc Produto - Ecommerce"
@@ -28,13 +29,26 @@ async function addProduct(formData: FormData) {
         throw Error("Campos necessários estão faltando")
     }
 
-    await prisma.product.create({
+    const prismaProduct = await prisma.product.create({
         data: {
             name,
             description,
             imageUrl,
             price
         }
+    })
+
+    await stripe.products.create({
+        id: prismaProduct.id,
+        name,
+        description,
+        default_price_data: {
+            currency: "BRL",
+            unit_amount: price
+        },
+        images: [
+            imageUrl
+        ]
     })
 
     redirect("/")
