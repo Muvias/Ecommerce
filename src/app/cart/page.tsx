@@ -1,9 +1,9 @@
+import { PaymentButton } from "@/components/PaymentButton"
 import { getCart } from "@/lib/db/cart"
+import { formatPrice } from "@/lib/format"
+import { Ghost } from "lucide-react"
 import { CartEntry } from "./CartEntry"
 import { setProductQuantity } from "./actions"
-import { Ghost } from "lucide-react"
-import { formatPrice } from "@/lib/format"
-import { Button } from "@/components/ui/button"
 
 interface pageProps { }
 
@@ -36,9 +36,7 @@ export default async function page({ }: pageProps) {
                         Total: {formatPrice(cart?.subtotal || 0)}
                     </p>
 
-                    <Button>
-                        Concluir
-                    </Button>
+                    <PaymentButton cart={cart} />
                 </div>
             )}
         </div >

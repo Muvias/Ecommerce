@@ -1,7 +1,7 @@
 import { PaginationBar } from "@/components/PaginationBar"
 import { ProductCard } from "@/components/ProductCard"
 import { buttonVariants } from "@/components/ui/button"
-import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
+import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card"
 import { prisma } from "@/lib/db/prisma"
 import Image from "next/image"
 import Link from "next/link"
@@ -42,9 +42,9 @@ export default async function Home({ searchParams: { page = "1" } }: HomeProps) 
             />
           </CardHeader>
 
-          <CardContent>
-            <CardTitle className="text-5xl truncate">{products[0].name}</CardTitle>
-            <CardContent className="px-0 py-6 line-clamp-6">{products[0].description}</CardContent>
+          <CardContent className="">
+            <CardTitle className="text-5xl py-1 truncate">{products[0].name}</CardTitle>
+            <CardDescription className="text-lg my-4 line-clamp-6">{products[0].description}</CardDescription>
             <Link
               className={buttonVariants()}
               href={"/products/" + products[0].id}

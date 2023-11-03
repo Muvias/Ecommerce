@@ -1,9 +1,9 @@
 import type { Product } from "@prisma/client"
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "./ui/card"
-import { PriceTag } from "./PriceTag"
 import Image from "next/image"
-import { Badge } from "./ui/badge"
 import Link from "next/link"
+import { PriceTag } from "./PriceTag"
+import { Badge } from "./ui/badge"
+import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "./ui/card"
 
 interface ProductCardProps {
     product: Product
