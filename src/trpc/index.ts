@@ -1,6 +1,8 @@
 import { stripe } from "@/lib/stripe";
 import { publicProcedure, router } from "./trpc";
 import { z } from "zod";
+import { getCart } from "@/lib/db/cart";
+import { prisma } from "@/lib/db/prisma";
 
 export const appRouter = router({
     createStripeSession: publicProcedure
@@ -20,11 +22,14 @@ export const appRouter = router({
         )
         .mutation(async (ctx) => {
             const billingUrl = "http://localhost:3000";
+            const cart = await getCart()
+
+            if (!cart?.userId) return null
 
             const { input } = ctx;
 
             const stripeSession = await stripe.checkout.sessions.create({
-                success_url: billingUrl,
+                success_url: `${billingUrl}/success/${cart?.id}`,
                 payment_method_types: ["card"],
                 mode: "payment",
                 billing_address_collection: "required",
