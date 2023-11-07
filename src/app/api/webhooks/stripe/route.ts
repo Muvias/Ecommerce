@@ -16,11 +16,11 @@ export async function POST(request: Request) {
             process.env.STRIPE_WEBHOOK_SECRET || ''
         )
     } catch (error) {
-        console.error('Erro na verificação da assinatura:', error)
-        return {
-            status: 400,
-            body: 'Erro na verificação da assinatura do webhook.',
-        }
+        return new Response(
+            `Webhook Error: ${error instanceof Error ? error.message : 'Unknown Error'
+            }`,
+            { status: 400 }
+        )
     }
 
     const eventData = event.data.object as Stripe.Checkout.Session
