@@ -45,6 +45,9 @@ export const appRouter = router({
                     billing_address_collection: "required",
                     line_items: input.items,
                     customer_creation: "always",
+                    metadata: {
+                        userId: dbUser.id
+                    }
                 })
 
                 return { url: stripeSession.url };

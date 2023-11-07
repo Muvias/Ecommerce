@@ -26,7 +26,7 @@ export async function POST(request: Request) {
     const eventData = event.data.object as Stripe.Checkout.Session
 
     if (!eventData.metadata?.userId) {
-        return new Response(null, { status: 200 })
+        return new Response(null, { status: 204 })
     }
 
     if (event.type === 'checkout.session.completed') {
@@ -42,10 +42,7 @@ export async function POST(request: Request) {
                 stripeID: customerID
             }
         })
-
-        console.log("Checkout")
     }
-
 
     return new Response('OK', { status: 200 })
 }
