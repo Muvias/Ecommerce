@@ -57,7 +57,7 @@ export const appRouter = router({
                 billing_address_collection: "required",
                 line_items: input.items,
                 metadata: {
-                    userId: dbUser.stripeID
+                    userId: dbUser.id
                 }
             })
 
