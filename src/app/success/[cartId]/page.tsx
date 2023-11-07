@@ -27,10 +27,20 @@ export default async function Page({ params: { cartId } }: pageProps) {
         }
     })
 
+    const user = await prisma.user.findFirst({
+        where: {
+            id: session.user.id
+        }
+    })
+
+    // if (!user?.stripeID) return null
+
+    // const purchases = await stripe.checkout.sessions.listLineItems(user.stripeID)
 
     return (
         <div className="text-center space-y-4">
             <h1 className="text-4xl">Obrigado pela compra</h1>
+            <p>Você será redirecionado em breve</p>
         </div>
     )
 }

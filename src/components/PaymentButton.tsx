@@ -1,9 +1,8 @@
 'use client'
 
 import { trpc } from "@/app/_trpc/client"
-import { Button } from "./ui/button"
 import { ShoppingCart } from "@/lib/db/cart"
-import { prisma } from "@/lib/db/prisma"
+import { Button } from "./ui/button"
 
 interface paymentButtonProps {
     cart: ShoppingCart | null

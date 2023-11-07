@@ -3,6 +3,7 @@ import { publicProcedure, router } from "./trpc";
 import { z } from "zod";
 import { getCart } from "@/lib/db/cart";
 import { prisma } from "@/lib/db/prisma";
+import { TRPCError } from "@trpc/server";
 
 export const appRouter = router({
     createStripeSession: publicProcedure
@@ -24,19 +25,43 @@ export const appRouter = router({
             const billingUrl = "http://localhost:3000";
             const cart = await getCart()
 
-            if (!cart?.userId) return null
+            if (!cart?.userId) throw new TRPCError({ code: "UNAUTHORIZED" })
 
             const { input } = ctx;
 
+            const dbUser = await prisma.user.findFirst({
+                where: {
+                    id: cart.userId,
+                },
+            })
+
+            if (!dbUser) throw new TRPCError({ code: "UNAUTHORIZED" })
+
+            if (!dbUser.stripeID) {
+                const stripeSession = await stripe.checkout.sessions.create({
+                    success_url: `${billingUrl}/success/${cart.id}`,
+                    payment_method_types: ["card"],
+                    mode: "payment",
+                    billing_address_collection: "required",
+                    line_items: input.items,
+                    customer_creation: "always",
+                })
+
+                return { url: stripeSession.url };
+            }
+
             const stripeSession = await stripe.checkout.sessions.create({
-                success_url: `${billingUrl}/success/${cart?.id}`,
+                success_url: `${billingUrl}/success/${cart.id}`,
                 payment_method_types: ["card"],
                 mode: "payment",
                 billing_address_collection: "required",
                 line_items: input.items,
-            });
+                metadata: {
+                    userId: dbUser.stripeID
+                }
+            })
 
-            return { url: stripeSession.url };
+            return { url: stripeSession.url }
         }),
 })
 
