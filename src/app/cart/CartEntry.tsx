@@ -24,7 +24,7 @@ export function CartEntry({ cartItem: { product, quantity }, setProductQuantity 
         quantityOptions.push(
             <SelectItem
                 key={i}
-                value={i}
+                value={i.toString()}
             >
                 {i}
             </SelectItem>
@@ -53,7 +53,7 @@ export function CartEntry({ cartItem: { product, quantity }, setProductQuantity 
                     <div className="flex items-center my-1 gap-2">
                         Quantidade:
                         <Select
-                            defaultValue={quantity}
+                            defaultValue={quantity.toString()}
                             onValueChange={(value) => {
                                 const newQuantity = parseInt(value);
 
@@ -67,12 +67,12 @@ export function CartEntry({ cartItem: { product, quantity }, setProductQuantity 
                                     variant: 'outline',
                                 })}
                             >
-                                <SelectValue placeholder={quantity} />
+                                <SelectValue placeholder={quantity.toString()} />
                             </SelectTrigger>
 
                             <SelectContent>
                                 <SelectGroup className="h-40 scrollbar-w-2 overflow-y-scroll pr-1">
-                                    <SelectItem value={0} className="bg-red-300">Remover</SelectItem>
+                                    <SelectItem value={'0'} className="bg-red-300">Remover</SelectItem>
                                     {quantityOptions}
                                 </SelectGroup>
                             </SelectContent>
