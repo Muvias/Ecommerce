@@ -22,7 +22,7 @@ export const appRouter = router({
             })
         )
         .mutation(async (ctx) => {
-            const billingUrl = "http://localhost:3000";
+            const billingUrl = "https://ecommerce-muvias.vercel.app/";
             const cart = await getCart()
 
             if (!cart?.userId) throw new TRPCError({ code: "UNAUTHORIZED" })
