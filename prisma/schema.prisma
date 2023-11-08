@@ -78,7 +78,6 @@ model Session {
 
 model User {
   id               String    @id @default(auto()) @map("_id") @db.ObjectId
-  stripeID         String?
   stripeCustomerID String?
   name             String?
   email            String?   @unique

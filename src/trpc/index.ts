@@ -46,8 +46,7 @@ export const appRouter = router({
                     line_items: input.items,
                     customer_creation: "always",
                     metadata: {
-                        userId: dbUser.id,
-                        cardId: cart.id
+                        userId: dbUser.id
                     }
                 })
 
@@ -60,7 +59,7 @@ export const appRouter = router({
                 mode: "payment",
                 billing_address_collection: "required",
                 line_items: input.items,
-                customer: dbUser.stripeCustomerID,
+                customer: dbUser.stripeCustomerID
             })
 
             return { url: stripeSession.url }

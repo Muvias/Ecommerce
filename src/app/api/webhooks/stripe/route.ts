@@ -37,7 +37,6 @@ export async function POST(request: Request) {
 
     if (event.type === 'checkout.session.completed') {
         const customerID = eventData.customer?.toString()
-        const sessionID = eventData.id
 
         if(!user?.stripeCustomerID) {
             if (!customerID) return new Response('No customer ID', { status: 500 })
@@ -48,7 +47,6 @@ export async function POST(request: Request) {
                 },
                 data: {
                     stripeCustomerID: customerID,
-                    stripeID: sessionID
                 }
             })
         }
