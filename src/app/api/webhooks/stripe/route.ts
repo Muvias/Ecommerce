@@ -29,19 +29,29 @@ export async function POST(request: Request) {
         return new Response(null, { status: 204 })
     }
 
+    const user = await prisma.user.findFirst({
+        where: {
+            id: eventData.metadata.userId
+        }
+    })
+
     if (event.type === 'checkout.session.completed') {
         const customerID = eventData.customer?.toString()
+        const sessionID = eventData.id
 
-        if (!customerID) return new Response('No customer ID', { status: 500 })
+        if(!user?.stripeCustomerID) {
+            if (!customerID) return new Response('No customer ID', { status: 500 })
 
-        await prisma.user.update({
-            where: {
-                id: eventData.metadata.userId
-            },
-            data: {
-                stripeID: customerID
-            }
-        })
+            await prisma.user.update({
+                where: {
+                    id: eventData.metadata.userId
+                },
+                data: {
+                    stripeCustomerID: customerID,
+                    stripeID: sessionID
+                }
+            })
+        }
     }
 
     return new Response('OK', { status: 200 })

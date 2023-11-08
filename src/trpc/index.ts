@@ -37,7 +37,7 @@ export const appRouter = router({
 
             if (!dbUser) throw new TRPCError({ code: "UNAUTHORIZED" })
 
-            if (!dbUser.stripeID) {
+            if (!dbUser.stripeCustomerID) {
                 const stripeSession = await stripe.checkout.sessions.create({
                     success_url: `${billingUrl}/success/${cart.id}`,
                     payment_method_types: ["card"],
@@ -46,7 +46,8 @@ export const appRouter = router({
                     line_items: input.items,
                     customer_creation: "always",
                     metadata: {
-                        userId: dbUser.id
+                        userId: dbUser.id,
+                        cardId: cart.id
                     }
                 })
 
@@ -59,9 +60,7 @@ export const appRouter = router({
                 mode: "payment",
                 billing_address_collection: "required",
                 line_items: input.items,
-                metadata: {
-                    userId: dbUser.id
-                }
+                customer: dbUser.stripeCustomerID,
             })
 
             return { url: stripeSession.url }
