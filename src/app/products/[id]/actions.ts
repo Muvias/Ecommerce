@@ -41,5 +41,5 @@ export async function incrementProductQuantity(productId: string) {
         })
     }
 
-    revalidatePath("/products/[id]")
+    revalidatePath("/products/[id]", 'page')
 }
