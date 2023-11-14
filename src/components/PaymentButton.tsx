@@ -2,6 +2,7 @@
 
 import { trpc } from "@/app/_trpc/client"
 import { ShoppingCart } from "@/lib/db/cart"
+import { signIn } from 'next-auth/react'
 import { Button } from "./ui/button"
 
 interface paymentButtonProps {
@@ -36,9 +37,14 @@ export function PaymentButton({ cart }: paymentButtonProps) {
 
     return (
         <Button onClick={() => {
+            if (!cart?.userId) {
+                signIn('google')
+            }
+
             if (cart) {
-                const items = convertCartItemsToStripeFormat(cart.items);
-                createStripeSession({ items });
+                const items = convertCartItemsToStripeFormat(cart.items)
+                
+                createStripeSession({ items })
             }
         }}>
             Concluir

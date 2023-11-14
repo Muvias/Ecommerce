@@ -15,7 +15,7 @@ interface pageProps {
 export default async function Page({ params: { cartId } }: pageProps) {
     const session = await getServerSession(authOptions)
 
-    if (!session) redirect('/')
+    if (!session?.user) redirect('/')
 
     await prisma.cart.update({
         where: {
