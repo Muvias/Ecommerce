@@ -16,7 +16,7 @@ export function UserMenuButton({ session }: UserMenuButtonProps) {
 
     return (
         <DropdownMenu>
-            <DropdownMenuTrigger className="rounded-full hover:bg-zinc-100">
+            <DropdownMenuTrigger className="rounded-full hover:bg-zinc-100" aria-label="Opções de usuário">
                 <DropdownMenuLabel>
                     {user ? (
                         <>

@@ -13,7 +13,7 @@ interface ShoppingCartButtonProps {
 export function ShoppingCartButton({ cart }: ShoppingCartButtonProps) {
     return (
         <DropdownMenu>
-            <DropdownMenuTrigger className="relative py-2 px-3 rounded-full hover:bg-zinc-100">
+            <DropdownMenuTrigger className="relative py-2 px-3 rounded-full hover:bg-zinc-100" aria-label="Abrir carrinho de compras">
 
                 <ShoppingCartIcon />
 
